@@ -236,6 +236,25 @@ mkdir -p data/raw
 
 ## Quick Start Guide
 
+### Option 1: Automated Quick Start (Recommended)
+
+Run the provided script to build and run everything automatically:
+
+```bash
+git clone <repository-url>
+cd final
+chmod +x quick_start.sh
+./quick_start.sh
+```
+
+This script will:
+1. Build both Docker images
+2. Run the training pipeline
+3. Run the inference pipeline
+4. Display results
+
+### Option 2: Manual Step-by-Step
+
 ### Step 1: Clone the Repository
 
 ```bash
