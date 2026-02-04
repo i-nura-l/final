@@ -29,16 +29,24 @@ class ModelEvaluator:
         Args:
             y_true: True labels
             y_pred: Predicted labels
-            labels: List of label names
+            labels: List of label names or values
             
         Returns:
             dict: Dictionary of metrics
         """
+        # Determine pos_label for binary classification
+        if labels is not None and len(labels) == 2:
+            # If labels are numeric [0, 1], use 1 as pos_label
+            # If labels are strings, use the second one
+            pos_label = labels[1]
+        else:
+            pos_label = 1  # default
+        
         metrics = {
             'accuracy': accuracy_score(y_true, y_pred),
-            'precision': precision_score(y_true, y_pred, average='binary', pos_label=labels[1] if labels else 1),
-            'recall': recall_score(y_true, y_pred, average='binary', pos_label=labels[1] if labels else 1),
-            'f1': f1_score(y_true, y_pred, average='binary', pos_label=labels[1] if labels else 1)
+            'precision': precision_score(y_true, y_pred, average='binary', pos_label=pos_label, zero_division=0),
+            'recall': recall_score(y_true, y_pred, average='binary', pos_label=pos_label, zero_division=0),
+            'f1': f1_score(y_true, y_pred, average='binary', pos_label=pos_label, zero_division=0)
         }
         
         self.metrics = metrics
@@ -72,12 +80,15 @@ class ModelEvaluator:
         if metrics is None:
             metrics = self.metrics
         
+        # Convert to string if Path object
+        filepath_str = str(filepath)
+        
         # Save as JSON
-        with open(filepath, 'w') as f:
+        with open(filepath_str, 'w') as f:
             json.dump(metrics, f, indent=4)
         
         # Also save as text for easy reading
-        txt_filepath = filepath.replace('.json', '.txt')
+        txt_filepath = filepath_str.replace('.json', '.txt')
         with open(txt_filepath, 'w') as f:
             f.write("Model Evaluation Metrics\n")
             f.write("=" * 50 + "\n")
@@ -85,7 +96,7 @@ class ModelEvaluator:
                 f.write(f"{metric.capitalize()}: {value:.4f}\n")
             f.write("=" * 50 + "\n")
         
-        print(f"Metrics saved to: {filepath}")
+        print(f"Metrics saved to: {filepath_str}")
         print(f"Metrics saved to: {txt_filepath}")
     
     def plot_confusion_matrix(self, y_true, y_pred, labels=None, save_path=None):

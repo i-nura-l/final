@@ -107,9 +107,9 @@ def run_inference(model, preprocessor, vectorizer, data_path=None, has_labels=Tr
         
         # Convert labels
         true_labels = df['sentiment']
-        if true_labels.dtype == 'object':
+        if true_labels.dtype == 'object' or pd.api.types.is_string_dtype(true_labels):
             reverse_label_map = {'neg': 0, 'pos': 1, 'negative': 0, 'positive': 1}
-            true_labels = true_labels.map(reverse_label_map)
+            true_labels = true_labels.map(reverse_label_map).astype(int)
         
         evaluator = ModelEvaluator()
         metrics = evaluator.evaluate(true_labels, predictions, labels=[0, 1])

@@ -77,10 +77,10 @@ def prepare_data(data_path=None):
     y = df['sentiment']
     
     # Convert labels to binary if needed
-    if y.dtype == 'object':
+    if y.dtype == 'object' or pd.api.types.is_string_dtype(y):
         # Map pos/neg to 1/0
         label_map = {'pos': 1, 'neg': 0, 'positive': 1, 'negative': 0}
-        y = y.map(label_map)
+        y = y.map(label_map).astype(int)
         if y.isna().any():
             print("Warning: Some labels could not be mapped. Unique labels:", df['sentiment'].unique())
     
