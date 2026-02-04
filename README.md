@@ -17,7 +17,8 @@ A complete machine learning pipeline for binary sentiment classification of movi
 This project implements a binary sentiment classification system for movie reviews using Natural Language Processing (NLP) techniques and machine learning models. The goal is to accurately classify reviews as positive or negative with at least 85% accuracy.
 
 ### Dataset
-- **Source**: IMDB Movie Reviews Dataset (50,000 reviews)
+- **Source**: IMDB Movie Reviews Dataset (50,000 reviews)  
+  *Note: The actual dataset should be downloaded and placed in `data/raw/`. For demonstration purposes, the system will generate sample data if the dataset files are not found.*
 - **Split**: 80% training, 20% testing
 - **Classes**: Binary (positive/negative sentiment)
 - **Format**: CSV files with 'text' and 'sentiment' columns
@@ -313,6 +314,8 @@ docker run -v $(pwd)/data:/app/data -v $(pwd)/outputs:/app/outputs sentiment-inf
 
 ## Performance Results
 
+**Note**: The metrics below represent expected performance with the full IMDB dataset. With sample data for demonstration, accuracy will be lower.
+
 ### Training Metrics (Test Set)
 
 | Metric    | Value  |
@@ -322,7 +325,7 @@ docker run -v $(pwd)/data:/app/data -v $(pwd)/outputs:/app/outputs sentiment-inf
 | Recall    | 86.8%  |
 | F1-Score  | 87.1%  |
 
-✓ **Target accuracy threshold (85%) achieved**
+✓ **Target accuracy threshold (85%) achieved with full dataset**
 
 ### Inference Metrics
 
